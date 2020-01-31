@@ -1,11 +1,11 @@
-// package project1;
+package project1;
 
 import java.util.*;
 
 public class Solution {
 
     @SuppressWarnings("resource")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
     	
 		int[] input = new int[15];
     	Scanner scanner = new Scanner(System.in);
@@ -21,29 +21,27 @@ public class Solution {
     	}
     	
     	
-    	move = movemaker(input);
     	
+    	move = movemaker(input);
     	System.out.print("move chosen: "+move);
     	scanner.close();
     }
-
+    
+    //makes decision based on move summary
 	private static int movemaker(int[] input) {
 		int move = 0;
 		int max=0;
 		int score=0;
-		int[][] movelist = new int[6][3];
-		int k=0;
+		board init = new board();
 		
 		for(int i=1; i<=6; i++) {
 			int[] board = input.clone();
 			if(board[i+1]!=0) {
-				board = exact(board);
+				board = getScore(i,board);
 				board[0]=input[0];
 				while (board[0]==input[0]) {
-					board=exact(board);
-					System.out.println(Arrays.toString(board));
-					movelist[i-1][k]=board[14];
-					k++;		
+					board=search(board);
+					System.out.println(Arrays.toString(board));		
 				}
 			}
 			score= board[8]-input[8];
@@ -52,8 +50,32 @@ public class Solution {
 		
 		return move;
 	}
+	private static int[] search(int[] board) {
+			makeTree(board);
+		return null;
+	}
+	
+	private static board[] makeTree(int[] board){
+		int depth=1;
+		boolean var;
+		board init = new board();
+		board temp = new board();
+		init.field=board;
+		Queue<board> q = new LinkedList<board>();
+		var = q.isEmpty();
+		while(var!=true){
+			init = q.remove();
+			for (int i=1; i<=6; i++) {
+				if((board[i+1]+i)==8) {
+					temp.field=(getScore(i, board));
+				}
+			}
+		}
+		return null;
+	}
 
-	private static int[] exact(int[] board) {
+	//does 1-6 moves and returns score per move
+	/*private static int[] makeTree(int[] board) {
 		int max=0;
 		int score=0;
 		int move=0;
@@ -66,9 +88,9 @@ public class Solution {
 		}
 		board[14]= move;
 		return board;
+		}*/
 		
-	}
-
+	//return board after change
 	private static int[] getScore(int i, int[] board) {
 		//int score;
 		int endpoint = i + board[i+1];

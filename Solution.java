@@ -1,5 +1,3 @@
-package project1;
-
 import java.util.*;
 
 public class Solution {
@@ -56,18 +54,26 @@ public class Solution {
 	}
 	
 	private static board[] makeTree(int[] board){
-		int depth=1;
+		int node=1;
 		boolean var;
 		board init = new board();
 		board temp = new board();
 		init.field=board;
 		Queue<board> q = new LinkedList<board>();
+		q.add(init);
 		var = q.isEmpty();
 		while(var!=true){
 			init = q.remove();
 			for (int i=1; i<=6; i++) {
 				if((board[i+1]+i)==8) {
 					temp.field=(getScore(i, board));
+					temp.depth+=1;
+					temp.path[temp.depth]=i;
+					q.add(temp);
+				}
+				else {
+					//getscore only
+					
 				}
 			}
 		}

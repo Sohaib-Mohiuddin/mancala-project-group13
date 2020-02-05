@@ -5,7 +5,7 @@ public class Solution {
     @SuppressWarnings("resource")
 	public static void main(String[] args) throws InterruptedException {
     	
-		int[] input = new int[15];
+		int[] input = new int[20];
     	Scanner scanner = new Scanner(System.in);
     	int move;
     	int j=0;
@@ -30,16 +30,14 @@ public class Solution {
 		int move = 0;
 		int max=0;
 		int score=0;
-		board init = new board();
 		
 		for(int i=1; i<=6; i++) {
 			int[] board = input.clone();
 			if(board[i+1]!=0) {
 				board = getScore(i,board);
 				board[0]=input[0];
-				while (board[0]==input[0]) {
+				if ((input[i+1]+i)==8) {
 					board=search(board);
-					System.out.println(Arrays.toString(board));		
 				}
 			}
 			score= board[8]-input[8];
@@ -49,35 +47,52 @@ public class Solution {
 		return move;
 	}
 	private static int[] search(int[] board) {
-			makeTree(board);
-		return null;
+		int max=0;
+		int[] temp = new int[20];
+		int[] maxboard = new int[20];
+		ArrayList<int[]> tree = new ArrayList<int[]>();
+		tree=makeTree(board);
+		Iterator<int[]> iter = tree.iterator();
+		 while (iter.hasNext()) { 
+	            System.out.print(iter.next() + " ");
+	            temp=iter.next();
+	            if(temp[16]>max){
+	            	temp=maxboard;
+	            	max=temp[16];
+	            }
+	        } 
+		return board;
 	}
 	
-	private static board[] makeTree(int[] board){
-		int node=1;
-		boolean var;
-		board init = new board();
-		board temp = new board();
-		init.field=board;
-		Queue<board> q = new LinkedList<board>();
-		q.add(init);
-		var = q.isEmpty();
+	private static ArrayList<int[]> makeTree(int[] board){
+		int node=0;
+		boolean var=false;
+		ArrayList<int[]> tree = new ArrayList<int[]>();
+		int[] temp = new int[20];
+		temp=board;
+		ArrayList<int[]> q = new ArrayList<int[]>();
+		q.add(temp);
+		System.out.println(var);
 		while(var!=true){
-			init = q.remove();
+			temp = q.remove(node);
 			for (int i=1; i<=6; i++) {
-				if((board[i+1]+i)==8) {
-					temp.field=(getScore(i, board));
-					temp.depth+=1;
-					temp.path[temp.depth]=i;
+				
+				if((temp[i+1]+i)==8) {
+					temp=(getScore(i, temp));
+					temp[20]+=1;
+					//temp.path[temp.]=i;
 					q.add(temp);
+					tree.add(temp);
 				}
 				else {
-					//getscore only
+					temp=getScore(i, temp);
+					tree.add(temp);
 					
 				}
-			}
+			}var = q.isEmpty();
+			node++;
 		}
-		return null;
+		return tree;
 	}
 
 	//does 1-6 moves and returns score per move

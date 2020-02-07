@@ -34,14 +34,16 @@ public class Solution {
 		for(int i=1; i<=6; i++) {
 			int[] board = input.clone();
 			if(board[i+1]!=0) {
-				board = getScore(i,board);
-				board[0]=input[0];
-				if ((input[i+1]+i)==8) {
+				board = getScore(i,board); 
+				if ((input[i+1]+i)==7) {
 					board=search(board);
 				}
+				board[16]=board[8]-input[8];
+				System.out.println(convertArrayToString(board));
+				score=board[8]-input[8];
+				System.out.println(board[16]+ "	 i= " + i);
+				if (score>max) {max=score;move=i;}
 			}
-			score= board[8]-input[8];
-			if (score>max) {max=score;move=i;}
 		}
 		
 		return move;
@@ -52,64 +54,52 @@ public class Solution {
 		int[] maxboard = new int[20];
 		ArrayList<int[]> tree = new ArrayList<int[]>();
 		tree=makeTree(board);
-		Iterator<int[]> iter = tree.iterator();
+		Iterator<int[]> iter = tree.iterator(); 
 		 while (iter.hasNext()) { 
-	            System.out.print(iter.next() + " ");
+	         
 	            temp=iter.next();
-	            if(temp[16]>max){
-	            	temp=maxboard;
-	            	max=temp[16];
+	            System.out.println(convertArrayToString(temp) + " "+max);
+	            if((temp[8]-board[8])>max){
+	            	maxboard=temp;
+	            	max=temp[8]-board[8];
 	            }
 	        } 
-		return board;
+		return maxboard;
 	}
 	
 	private static ArrayList<int[]> makeTree(int[] board){
+		int depth=1;
 		int node=0;
 		boolean var=false;
-		ArrayList<int[]> tree = new ArrayList<int[]>();
 		int[] temp = new int[20];
+		int[] tempclone = new int[20];
 		temp=board;
+		ArrayList<int[]> tree = new ArrayList<int[]>();
 		ArrayList<int[]> q = new ArrayList<int[]>();
 		q.add(temp);
-		System.out.println(var);
 		while(var!=true){
-			temp = q.remove(node);
+			tempclone = q.remove(node);
+			temp = tempclone.clone();
 			for (int i=1; i<=6; i++) {
-				
+				temp = tempclone.clone();
 				if((temp[i+1]+i)==8) {
 					temp=(getScore(i, temp));
 					temp[20]+=1;
-					//temp.path[temp.]=i;
+					temp[16+depth]=i;
 					q.add(temp);
 					tree.add(temp);
+					//System.out.println("added to tree/q: "+ temp.toString());
 				}
 				else {
 					temp=getScore(i, temp);
 					tree.add(temp);
-					
+					//System.out.println(i+" added to tree: " + convertArrayToString(temp));
 				}
 			}var = q.isEmpty();
-			node++;
+			depth++;
 		}
 		return tree;
 	}
-
-	//does 1-6 moves and returns score per move
-	/*private static int[] makeTree(int[] board) {
-		int max=0;
-		int score=0;
-		int move=0;
-		for (int i=1; i<=6; i++) {
-			if(board[i+1]!=0) {
-				board = getScore(i, board);
-				score= board[14];
-				if (score>max) {max=score;move=i;}
-			}
-		}
-		board[14]= move;
-		return board;
-		}*/
 		
 	//return board after change
 	private static int[] getScore(int i, int[] board) {
@@ -122,13 +112,9 @@ public class Solution {
 			}
 		}
 		
-		if(endpoint!=8) {
-			board[0]=-1*(board[0]-3);
-		}
-		
 		if(endpoint>1 && endpoint<6 && board[13-endpoint]==0) {
 			board = updateboard(i, board, endpoint);
-			board[8]=board[8]+board[13-i];
+			//board[8]=board[8]+board[13-i];
 			return board;
 		}
 
@@ -143,4 +129,9 @@ public class Solution {
 		board[i+1]=0;
 		return board;
 	}
+	
+
+    public static String convertArrayToString(int[] temp) {
+        return Arrays.toString(temp);
+    }
 }

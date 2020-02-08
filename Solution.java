@@ -42,7 +42,7 @@ public class Solution {
 				System.out.println(convertArrayToString(board)+" move="+i);
 				score=board[8]-input[8];
 				System.out.println("score="+board[15]+ "	 i= " + i);
-				if (score>max) {max=score;move=i;}
+				if (score>=max) {max=score;move=i;}
 				//check treeboard if so add path to it
 			}
 		}

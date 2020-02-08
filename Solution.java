@@ -87,7 +87,7 @@ public class Solution {
 				if((temp[i+1]+i)==7) {
 					temp=(getScore(i, temp));
 					//temp[20]+=1;
-					temp[15+depth]=i;
+					//temp[15+depth]=i;
 					q.add(temp);
 					//tree.add(temp);
 					System.out.println("\nadded to q: "+ convertArrayToString(temp)+" i= " +i +" temp "+temp[i+1]+"\n");

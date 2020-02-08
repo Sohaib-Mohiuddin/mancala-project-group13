@@ -39,9 +39,9 @@ public class Solution {
 					board=search(board);
 				}
 				board[15]=board[8]-input[8];
-				System.out.println(convertArrayToString(board)+" move="+i);
+				//System.out.println(convertArrayToString(board)+" move="+i);
 				score=board[8]-input[8];
-				System.out.println("score="+board[15]+ "	 i= " + i);
+				//System.out.println("score="+board[15]+ "	 i= " + i);
 				if (score>=max) {max=score;move=i;}
 				//check treeboard if so add path to it
 			}
@@ -90,12 +90,12 @@ public class Solution {
 					//temp[15+depth]=i;
 					q.add(temp);
 					//tree.add(temp);
-					System.out.println("\nadded to q: "+ convertArrayToString(temp)+" i= " +i +" temp "+temp[i+1]+"\n");
+					//System.out.println("\nadded to q: "+ convertArrayToString(temp)+" i= " +i +" temp "+temp[i+1]+"\n");
 				}
 				else {
 					temp=getScore(i, temp);
 					tree.add(temp);
-					System.out.println(i+" added to tree: " + convertArrayToString(temp)+" i= " +i +" temp "+temp[i+1]);
+					//System.out.println(i+" added to tree: " + convertArrayToString(temp)+" i= " +i +" temp "+temp[i+1]);
 				}
 			}var = q.isEmpty();
 			depth++;

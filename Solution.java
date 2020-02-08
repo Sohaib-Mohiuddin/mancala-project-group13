@@ -53,6 +53,7 @@ public class Solution {
 		int max=0;
 		int[] temp = new int[20];
 		int[] maxboard = new int[20];
+		maxboard=board;
 		ArrayList<int[]> tree = new ArrayList<int[]>();
 		tree=makeTree(board);
 		Iterator<int[]> iter = tree.iterator(); 

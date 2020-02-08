@@ -21,7 +21,7 @@ public class Solution {
     	
     	
     	move = movemaker(input);
-    	System.out.print("move chosen: "+move);
+    	System.out.print(move);
     	scanner.close();
     }
     

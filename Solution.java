@@ -38,11 +38,12 @@ public class Solution {
 				if ((input[i+1]+i)==7) {
 					board=search(board);
 				}
-				board[16]=board[8]-input[8];
-				System.out.println(convertArrayToString(board));
+				board[15]=board[8]-input[8];
+				System.out.println(convertArrayToString(board)+" move="+i);
 				score=board[8]-input[8];
-				System.out.println(board[16]+ "	 i= " + i);
+				System.out.println("score="+board[15]+ "	 i= " + i);
 				if (score>max) {max=score;move=i;}
+				//check treeboard if so add path to it
 			}
 		}
 		
@@ -58,7 +59,7 @@ public class Solution {
 		 while (iter.hasNext()) { 
 	         
 	            temp=iter.next();
-	            System.out.println(convertArrayToString(temp) + " "+max);
+	            //System.out.println(convertArrayToString(temp) + " "+max);
 	            if((temp[8]-board[8])>max){
 	            	maxboard=temp;
 	            	max=temp[8]-board[8];
@@ -82,18 +83,18 @@ public class Solution {
 			temp = tempclone.clone();
 			for (int i=1; i<=6; i++) {
 				temp = tempclone.clone();
-				if((temp[i+1]+i)==8) {
+				if((temp[i+1]+i)==7) {
 					temp=(getScore(i, temp));
-					temp[20]+=1;
-					temp[16+depth]=i;
+					//temp[20]+=1;
+					temp[15+depth]=i;
 					q.add(temp);
-					tree.add(temp);
-					//System.out.println("added to tree/q: "+ temp.toString());
+					//tree.add(temp);
+					System.out.println("\nadded to q: "+ convertArrayToString(temp)+" i= " +i +" temp "+temp[i+1]+"\n");
 				}
 				else {
 					temp=getScore(i, temp);
 					tree.add(temp);
-					//System.out.println(i+" added to tree: " + convertArrayToString(temp));
+					System.out.println(i+" added to tree: " + convertArrayToString(temp)+" i= " +i +" temp "+temp[i+1]);
 				}
 			}var = q.isEmpty();
 			depth++;
@@ -107,14 +108,14 @@ public class Solution {
 		int endpoint = i + board[i+1];
 		if (endpoint>13) {
 			endpoint = 13%endpoint;
-			for (int k = 0; k < board.length; k++) {
+			for (int k = 2; k <14 ; k++) {
 				board[k]++;
 			}
 		}
 		
-		if(endpoint>1 && endpoint<6 && board[13-endpoint]==0) {
+		if(endpoint>1 && endpoint<6 && board[endpoint+i]==0) {
 			board = updateboard(i, board, endpoint);
-			//board[8]=board[8]+board[13-i];
+			board[8]=board[8]+board[13-i];
 			return board;
 		}
 
@@ -122,7 +123,7 @@ public class Solution {
 		return board;		
 	}
 
-	private static int[] updateboard(int i, int[] board, int ep) {
+	private static int[] updateboard(int i, int[] board, int ep) { //bug adds to opponent's Mancala which is now mine
 		for (int j=i+1;j<=ep;j++) {
 			board[j+1]++;
 		}

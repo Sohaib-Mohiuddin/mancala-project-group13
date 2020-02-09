@@ -42,12 +42,12 @@ public class Solutiontest {
 		tree.add(input);
 		for(int i=1; i<=depth; i++) {
 			
-				if(i==2) {adjustPlayer(input);}
 				//select best node
 				iter = tree.listIterator();
 				while (iter.hasNext()) { 
 			         
 			            temp=iter.next();
+			            if(i%2==0) {adjustPlayer(temp);}
 			            moveset.addAll(movemaker2(temp));        
 			}
 			//save 

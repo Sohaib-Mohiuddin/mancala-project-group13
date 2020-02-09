@@ -39,6 +39,7 @@ public class Solutiontest {
 		ListIterator<int[]> iter;
 		temp=input;
 		ArrayList<int[]> tree = new ArrayList<int[]>();
+		tree.add(input);
 		for(int i=1; i<=depth; i++) {
 			
 				if(i==2) {adjustPlayer(input);}

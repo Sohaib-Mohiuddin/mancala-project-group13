@@ -38,7 +38,7 @@ public class Solution {
         int max=0;
         int score=0;
         
-        for(int i=6; i>=1; i--) {
+        for(int i=1; i<=6; i++) {
             int[] board = input.clone();
             if(board[i+1]!=0) {
                 board = getScore(i,board); 

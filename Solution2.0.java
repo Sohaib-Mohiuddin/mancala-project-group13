@@ -99,25 +99,53 @@ public class Solutiontest {
                 //System.out.println(convertArrayToString(board)+" move="+i);
                 value=prioritize(board, input);
                 //value=board[16];
-                score=board[8]-input[8];
+                
                 //System.out.println("score="+board[15]+ "     i= " + i);
                // System.out.println("value="+value+ " \n ");
                 if (value>=max) {
                 	max=value;
                 	move=i;
+                	board[19]=board[8]-input[8];
                 	if (depth==1){board[18]=move;}
                 	moveset.add(board);
                 	}
                 //check treeboard if so add path to it
             }
         }
+        //if(depth!=1) {moveset=prune(moveset, depth);}
 		return moveset;
     }
     
-        private static int[] adjustPlayer(int[] input) {
+        private static ArrayList<int[]> prune(ArrayList<int[]> moveset, int depth) {
+        int[] temp;
+        int[] take = null;
+        int max=0;
+		ArrayList<int[]> top3 = new ArrayList<int[]>();
+		for (int i=0;i<3*depth;i++) {
+			for(int j=0; i<moveset.size(); i++){
+				temp = moveset.get(j);
+				if(temp[19] > max){
+		            max = temp[19];
+		            take=temp;
+		        }
+		    }
+			top3.add(take);
+			moveset.remove(moveset.indexOf(take));
+		}
+		return top3;
+	}
+
+
+		private static int[] adjustPlayer(int[] input) {
         int[] temp = new int[20];
         temp[8]=input[1];
         temp[1]=input[8];
+        if(input[0]==1) {
+        	temp[0]=2;
+        }
+        else {
+        	temp[0]=1;
+        }
         for(int i=2; i<8;i++) {
             temp[i]= input[i+7];
         }
@@ -143,34 +171,6 @@ public class Solutiontest {
     	return value;
     }
     
-    //makes decision based on move summary
-    private static int movemaker(int[] input) {
-        int move = 0;
-        float max=-1000;
-        int score=0;
-        float value;
-        
-        for(int i=6; i>=1; i--) {
-            int[] board = input.clone();
-            if(board[i+1]!=0) {
-                board = getScore(i,board); 
-                if ((input[i+1]+i)==7) {
-                    board=search(board);
-                }
-                board[15]=board[8]-input[8];
-                //System.out.println(convertArrayToString(board)+" move="+i);
-                value=prioritize(board, input);
-                //value=board[16];
-                score=board[8]-input[8];
-                System.out.println("score="+board[15]+ "     i= " + i);
-                System.out.println("value="+value+ " \n ");
-                if (value>=max) {max=value;move=i;}
-                //check treeboard if so add path to it
-            }
-        }
-        
-        return move;
-    }
     private static int[] search(int[] board) {
         int max=0;
         int[] temp = new int[20];

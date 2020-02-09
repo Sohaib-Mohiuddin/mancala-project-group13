@@ -41,6 +41,7 @@ public class Solutiontest {
 		ArrayList<int[]> tree = new ArrayList<int[]>();
 		tree.add(input);
 		for(int i=1; i<=depth; i++) {
+			System.out.println("depth="+i);
 			
 				//select best node
 				iter = tree.listIterator();
@@ -48,7 +49,8 @@ public class Solutiontest {
 			         
 			            temp=iter.next();
 			            if(i%2==0) {adjustPlayer(temp);}
-			            moveset.addAll(movemaker2(temp));        
+			            System.out.println(convertArrayToString(temp) + " "+max);
+			            moveset.addAll(movemaker2(temp, i));        
 			}
 			//save 
 			tree.clear();
@@ -79,7 +81,7 @@ public class Solutiontest {
     	
     }
     
-	private static ArrayList<int[]> movemaker2(int[] input) {
+	private static ArrayList<int[]> movemaker2(int[] input, int depth) {
         int move = 0;
         float max=-1000;
         int score=0;
@@ -103,7 +105,7 @@ public class Solutiontest {
                 if (value>=max) {
                 	max=value;
                 	move=i;
-                	board[18]=move;
+                	if (depth==1){board[18]=move;}
                 	moveset.add(board);
                 	}
                 //check treeboard if so add path to it
@@ -137,7 +139,7 @@ public class Solutiontest {
     	state=(48-board[8]+board[1])/48;
     	//cap = 0;
     	value= state*(points*10) + stonesminus*3 ;
-    	System.out.println("points=" + points + "  stone- = "+stonesminus);
+    	//System.out.println("points=" + points + "  stone- = "+stonesminus);
     	return value;
     }
     
